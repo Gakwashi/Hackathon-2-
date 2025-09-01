@@ -1,42 +1,33 @@
-const container = document.getElementById("recipeContainer");
-const ingredientsInput = document.getElementById("ingredientsInput");
-const searchBtn = document.getElementById("searchBtn");
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
 
-async function loadRecipes(ingredients="") {
-    container.innerHTML = "<p>Loading recipes...</p>";
+export default tseslint.config(
+  { ignores: ["dist"] },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  }
+);
 
-    if (ingredients) {
-        await fetch("/recommend", {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({ ingredients })
-        });
-    }
-
-    const response = await fetch("/api/recipes");
-    const recipes = await response.json();
-    container.innerHTML = "";
-
-    if (recipes.length === 0) {
-        container.innerHTML = "<p>No recipes found.</p>";
-        return;
-    }
-
-    recipes.forEach(r => {
-        const card = document.createElement("div");
-        card.className = "recipe-card";
-        card.innerHTML = `
-            <div class="card-img">
-                <img src="${r.image}" alt="${r.title}">
-            </div>
-            <h3>${r.title}</h3>
-            <p><strong>Ingredients:</strong> ${r.ingredients.join(", ")}</p>
-            <p><strong>Instructions:</strong> ${r.instructions}</p>
-            <div class="tags">${r.tags.map(tag => `<div class="tag">${tag}</div>`).join("")}</div>
-        `;
-        container.appendChild(card);
-    });
-}
 
 searchBtn.addEventListener("click", () => loadRecipes(ingredientsInput.value));
 ingredientsInput.addEventListener("keypress", e => { if (e.key==="Enter") loadRecipes(ingredientsInput.value); });
