@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Hunger Recipes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <h1>Zero Hunger Recipes</h1>
+    <p>Welcome, {{ email }} | <a href="{{ url_for('logout') }}">Logout</a></p>
+</header>
+
+<main>
+    <div class="search-bar">
+        <input type="text" id="ingredientsInput" placeholder="Enter ingredients...">
+        <button id="searchBtn">Search Recipes</button>
+    </div>
+
+    <div id="recipeContainer" class="grid-container"></div>
+</main>
+
+<footer>
+    <p>Made with ❤️ by Stacy 2025 | Zero Hunger Initiative</p>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
+
+
+
