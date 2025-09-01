@@ -1,4 +1,4 @@
-Zero Hunger Recipe Finder 
+**Zero Hunger Recipe Finder **
 
 A simple, interactive web app that fetches nutritious and affordable recipes using AI.  
 This project is inspired by **United Nations Sustainable Development Goal 2 (Zero Hunger)**.
